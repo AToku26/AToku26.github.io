@@ -1,0 +1,249 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+body {
+    --color1: #FFF ;
+    --color2: #181818 ;
+    height: 100%;
+    width: 100%;
+    background-image: url(../bg2.jpg);
+    background-size: cover;
+    background-position: center;
+}
+@font-face{
+    font-family: BodoniModaSC;
+    src: url(../Fuentes/BodoniModaSC.ttf);
+}
+/*Header*/
+#header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+.nav-bar {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    position: relative;
+    background-color: black;
+    padding: 12px 40px;
+}
+.nav-bar a{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: BodoniModaSC;
+    font-size: 1.1rem;
+}
+.logo img {width: 100px;}
+.menu {display: flex;}
+.menu li {padding-left: 30px;}
+.menu li a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--color1);
+    text-align: center;
+    transition: 0.15s ease-in-out;
+    position: relative;
+    text-transform: uppercase;
+    font-family: BodoniModaSC;
+}
+.menu li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color1);
+    transition: 0.15s ease-in-out;
+}
+.menu li a:hover:after {width: 100%;}
+.open-menu , .close-menu {
+    position: absolute;
+    color: var(--color1);
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: none;
+}
+.open-menu {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+.close-menu {
+    top: 20px;
+    right: 20px;
+}
+
+section{
+    height: 100%;
+    width: 100%;
+    padding: 10rem 15%;
+    font-family: BodoniModaSC;
+}
+
+/*Landing Proj*/
+.landing-proj{
+    height: 105vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.landing-proj h2{
+    padding-top: 60px;
+    font-size: 4rem;
+    color: white;
+    padding-bottom: 20px;
+    text-shadow: 3px 3px 5px black;
+}
+.proj-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    column-gap: 5rem;
+    row-gap: 5rem;
+}
+.proj-content video{
+    width: 600px;
+    border-radius: 25px;
+    box-shadow: 0 0 25px white;
+}
+.proj-content p{
+    font-size: 1.2rem;
+    width: 32vw;
+    color: white;
+    padding-bottom: 20px;
+}
+
+/*Galeria*/
+.galeria{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+.gal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    row-gap: 5px;
+}
+.column a{
+    transition: 0.3s ease-in-out;
+}
+.column a:hover{
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
+}
+.column img{
+    width: 550px;
+    height: 70%;
+    padding: 5px;
+    border-radius: 20px;
+    background-size: cover;
+    transition: 0.3s ease-in-out;
+}
+
+/*Footer*/
+.footer{
+    background-color: black;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Times New Roman;
+}
+.footer-contacto{
+    display: flex;
+    column-gap: 3rem;
+    text-align: center;
+}
+.footer .copy{
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+
+
+
+#check {display: none;}
+@media(max-width: 1024px){
+    .menu {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        z-index: 100;
+        background-color: var(--color2);
+        transition: all 0.2s ease-in-out;
+    }
+    .menu li {margin-top: 40px;}
+    .menu li a {padding: 10px;}
+    .open-menu , .close-menu {display: block;}
+    #check:checked ~ .menu {right: 0;}
+    .landing-proj{
+        flex-direction: column;
+        text-align: center;
+        height: 100vh;
+    }
+    .landing-proj h2{
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 2rem 0;
+        padding-top: 70px;
+    }
+    .proj-content{
+        flex-direction: column;
+        row-gap: 1rem;
+    }
+    .proj-content video{
+        width: 80vw;
+        height: auto;
+        aspect-ratio: auto;
+    }
+    .proj-content p{
+        font-size: 0.8rem;
+        width: 300px;
+        padding-top: 40px;
+    }
+    .gal{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .gal img{
+        width: 80vw;
+    }
+    .footer-contacto{
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+}
