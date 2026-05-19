@@ -1,0 +1,470 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+body {
+    --color1: #FFF ;
+    --color2: #181818 ;
+    height: 100%;
+    width: 100%;
+    background-image: url(bg.jpg);
+    background-size: contain;
+    background-position: center;
+}
+@font-face{
+    font-family: BodoniModaSC;
+    src: url(Fuentes/BodoniModaSC.ttf);
+}
+/*Header*/
+#header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+.nav-bar {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    position: relative;
+    background-color: black;
+    padding: 12px 40px;
+}
+.nav-bar a{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: BodoniModaSC;
+    font-size: 1.1rem;
+}
+.logo img {width: 100px;}
+.menu {display: flex;}
+.menu li {padding-left: 30px;}
+.menu li a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--color1);
+    text-align: center;
+    transition: 0.15s ease-in-out;
+    position: relative;
+    text-transform: uppercase;
+    font-family: BodoniModaSC;
+}
+.menu li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color1);
+    transition: 0.15s ease-in-out;
+}
+.menu li a:hover:after {width: 100%;}
+.open-menu , .close-menu {
+    position: absolute;
+    color: var(--color1);
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: none;
+}
+.open-menu {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+.close-menu {
+    top: 20px;
+    right: 20px;
+}
+
+section{
+    height: 100%;
+    width: 100%;
+    padding: 10rem 15%;
+    font-family: BodoniModaSC;
+}
+
+/*Inicio*/
+.inicio{
+    height: 105vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.inicio img{
+    padding-top: 100px;
+}
+.inicio-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inicio-info h1{
+    font-size: 5rem;
+    color: white;
+    text-shadow: 3px 3px 5px black;
+}
+.inicio-info p{
+    font-size: 1.5rem;
+    color: white;
+    padding-bottom: 50px;
+}
+
+/*Sobre Mi*/
+.sobremi{
+    height: 105vh;
+    width: 100%;
+    padding-top: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+}
+.sobremi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+.sobremi-img img{
+    width: 32vw;
+    border-radius: 50%;
+    box-shadow: 0 0 25px white;
+}
+.sobremi-content h2{
+    font-size: 4rem;
+    text-align: left;
+    color: white;
+    padding-bottom: 10px;
+    text-shadow: 3px 3px 5px black;
+}
+.sobremi-content p{
+    font-size: 1.5rem;
+    color: white;
+    padding-bottom: 20px;
+}
+.sobremi-content .contacto{
+    font-size: 1.5rem;
+    color: yellow;
+    row-gap: 10px;
+    padding-bottom: 20px;
+}
+
+/*Proyectos*/
+.proyectos{
+    min-height: 105vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    row-gap: 10px;
+}
+.heading{
+    font-size: 4rem;
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-shadow: 3px 3px 5px black;
+}
+.unipro-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    padding-bottom: 10rem;
+}
+.unipro-content img{
+    width: 32vw;
+    border-radius: 5%;
+}
+.content-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 10px;
+}
+.unipro1 h2{
+    font-size: 3rem;
+    padding-bottom: 15px;
+    text-shadow: 3px 3px 5px black;
+    text-align: center;
+} 
+.content-info p{
+    font-size: 1.5rem;
+    background-color: black;
+    padding: 40px 40px;
+}
+.tarjeta-btn{
+    font-size: 1.5rem;
+    padding: 0.6rem 1.5rem; 
+    border-radius: 1rem;
+    text-decoration: none;
+    border: 2px solid white;
+    background: black;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-wrap: nowrap;
+}
+.tarjeta-btn a{
+    font-family: BodoniModaSC;
+    text-decoration: none;
+    color: white;
+}
+.tarjeta-btn:hover{
+    transform: scale(1.1);
+    background-color: white;
+}
+.tarjeta-btn a:hover{
+    color: black;
+}
+.unipro-content-last{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+}
+.unipro-content-last img{
+    width: 32vw;
+    border-radius: 5%;
+}
+
+/*Galeria*/
+.galeria{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.gal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    row-gap: 5px;
+}
+.column a{
+    transition: 0.3s ease-in-out;
+}
+.column a:hover{
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
+}
+.column img{
+    width: 550px;
+    height: 70%;
+    padding: 5px;
+    border-radius: 20px;
+    background-size: cover;
+    transition: 0.3s ease-in-out;
+}
+
+/*Gear*/
+.softwares{  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.softwares-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 15px;
+}
+.softwares-card{
+    color: white;
+    width: 200px;
+    height: 320px;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+}
+.softwares-card img{
+    width: 200px;
+    height: 70%px;
+    padding: 5px;
+
+}
+.softwares-card p{
+    font-size: 1rem;
+    text-align: center;
+}
+.softwares-card:hover{
+    transform: scale(1.1);
+}
+
+/*Footer*/
+.footer{
+    background-color: black;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.footer-contacto{
+    display: flex;
+    column-gap: 3rem;
+    text-align: center;
+}
+.footer .copy{
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+
+/*Landing-proj*/
+.landing-proj{
+    background: black;
+    height: 105vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+
+
+
+
+#check {display: none;}
+@media(max-width: 1024px){
+    .menu {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        z-index: 100;
+        background-color: var(--color2);
+        transition: all 0.2s ease-in-out;
+    }
+    .menu li {margin-top: 40px;}
+    .menu li a {padding: 10px;}
+    .open-menu , .close-menu {display: block;}
+    #check:checked ~ .menu {right: 0;}
+    .inicio {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .inicio img {
+        position: center;
+        width: 90vw;
+    }
+    .inicio-info h1{
+        font-size: 2rem;
+    }
+    .inicio-info p{
+        font-size: 0.8rem;
+    }
+    .sobremi{
+        flex-direction: column-reverse;
+        text-align: center;
+        height: 100vh;
+    }
+    .sobremi-content h2{
+        font-size: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+        padding-top: 50px;
+    }
+    .sobremi-content p{
+        font-size: 0.8rem;
+    }
+    .sobremi-content .contacto{
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .sobremi-img img{
+        width: 60vw;
+    }
+    .heading{
+        font-size: 2rem;
+        text-align: center;
+    }
+    .unipro-content{
+        display: flex;
+        flex-direction: column;
+    }
+    .unipro-content img{
+        width: 80vw;
+    }
+    .content-info{
+        display: flex;
+        flex-direction: column;
+    }
+    .unipro1 h2{
+        font-size: 2rem;
+        text-align: center;
+        padding-bottom: 0;
+    }
+    .content-info p{
+        font-size: 0.8rem;
+        text-align: center;
+        padding: 20px 20px;
+    }
+    .tarjeta-btn{
+        font-size: 0.8rem;
+    }
+    .unipro-content-last{
+        display: flex;
+        flex-direction: column;
+    }
+    .unipro-content-last img{
+        width: 80vw;
+    }
+    .gal{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .gal img{
+        width: 80vw;
+    }
+    .softwares-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        row-gap: 15px;
+    }
+    .footer-contacto{
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+}
