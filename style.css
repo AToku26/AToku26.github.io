@@ -199,7 +199,8 @@ section{
     text-align: center;
 } 
 .content-info p{
-    font-size: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem;
     background-color: black;
     padding: 40px 40px;
 }
