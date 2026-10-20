@@ -1,0 +1,161 @@
+---
+// Página de inicio. El contenido sale de src/content/: no hace falta editar este archivo
+// para agregar proyectos, series de fotos o cambiar tus datos.
+import { getCollection, getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import TarjetaProyecto from '../components/TarjetaProyecto.astro';
+import { enlace, ordenar, contarFotos } from '../lib/utilidades';
+import logo from '../assets/logo.png';
+
+const proyectos = ordenar(await getCollection('proyectos', ({ data }) => !data.borrador));
+const series = ordenar(await getCollection('fotografia', ({ data }) => !data.borrador));
+const perfil = await getEntry('perfil', 'sobre-mi');
+if (!perfil) throw new Error('Falta el archivo src/content/perfil/sobre-mi.md');
+const { Content: Biografia } = await render(perfil);
+const datos = perfil.data;
+
+// Un filtro por cada tipo de proyecto que exista
+const tipos = [...new Set(proyectos.map((p) => p.data.tipo))];
+const contar = (tipo: string) => proyectos.filter((p) => p.data.tipo === tipo).length;
+
+// Alterna tarjetas anchas y angostas: ancho-angosto, angosto-ancho...
+const forma = (i: number) => (i % 4 === 0 || i % 4 === 3 ? 'ancho' : 'angosto');
+---
+
+<Base>
+  <section class="portada envoltura" aria-labelledby="titulo-portada">
+    <Image class="portada__logo" src={logo} alt="" loading="eager" fetchpriority="high" />
+    <h1 id="titulo-portada">{datos.nombre}</h1>
+    <p class="portada__lema">{datos.lema}</p>
+  </section>
+
+  <section id="proyectos" class="seccion envoltura" aria-labelledby="titulo-proyectos">
+    <div class="seccion__cabeza">
+      <h2 id="titulo-proyectos">Proyectos</h2>
+      <div class="filtros" data-filtros role="group" aria-label="Filtrar proyectos" hidden>
+        <button type="button" data-filtro="todos" aria-pressed="true">
+          Todos<span class="filtros__n">{proyectos.length}</span>
+        </button>
+        {
+          tipos.map((tipo) => (
+            <button type="button" data-filtro={tipo} aria-pressed="false">
+              {tipo}
+              <span class="filtros__n">{contar(tipo)}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <ul class="rejilla-proyectos">
+      {
+        proyectos.map((proyecto, i) => (
+          <li class={forma(i)} data-tipo={proyecto.data.tipo}>
+            <TarjetaProyecto proyecto={proyecto} cargaInmediata={i < 2} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="fotografia" class="seccion envoltura" aria-labelledby="titulo-fotografia">
+    <div class="seccion__cabeza">
+      <h2 id="titulo-fotografia">Fotografía</h2>
+    </div>
+    <ul class="hojas">
+      {
+        series.map((serie) => (
+          <li>
+            <a class="hoja" href={enlace(`fotografia/${serie.id}/`)}>
+              <div class="hoja__cinta">
+                {serie.data.fotos.map((foto) => (
+                  <Image src={foto} alt="" height={500} />
+                ))}
+              </div>
+              <div class="hoja__pie">
+                <h3>{serie.data.titulo}</h3>
+                <span>{contarFotos(serie.data.fotos.length)}</span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="sobre-mi" class="seccion envoltura sobre" aria-labelledby="titulo-sobre-mi">
+    <figure class="sobre__retrato">
+      <Image
+        src={datos.retrato}
+        alt={`Retrato de ${datos.nombre}`}
+        widths={[400, 700, 1000]}
+        sizes="(min-width: 860px) 40vw, 92vw"
+      />
+    </figure>
+    <div class="sobre__texto">
+      <h2 id="titulo-sobre-mi">Sobre mí</h2>
+      <div class="prosa">
+        <Biografia />
+      </div>
+
+      {
+        datos.equipo.length > 0 && (
+          <dl class="ficha-datos">
+            <dt>Equipo</dt>
+            <dd>{datos.equipo.join(', ')}</dd>
+          </dl>
+        )
+      }
+
+      {
+        datos.softwares.length > 0 && (
+          <div class="software">
+            <h3>Software</h3>
+            <ul>
+              {datos.softwares.map((s) => (
+                <li>
+                  {s.icono ? <Image src={s.icono} alt="" width={60} /> : <span aria-hidden="true" />}
+                  {s.nombre}
+                  <span>{s.nivel}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section id="contacto" class="seccion envoltura contacto" aria-labelledby="titulo-contacto">
+    <h2 id="titulo-contacto">Contacto</h2>
+    <p>¿Tienes un video, una sesión de fotos o algo por construir? Escríbeme.</p>
+    <a class="contacto__correo" href={`mailto:${datos.email}`}>{datos.email}</a>
+    <dl class="ficha-datos">
+      {
+        datos.telefono && (
+          <>
+            <dt>Teléfono</dt>
+            <dd>
+              <a href={`tel:${datos.telefono.replace(/[^+\d]/g, '')}`}>{datos.telefono}</a>
+            </dd>
+          </>
+        )
+      }
+      {
+        datos.instagram && (
+          <>
+            <dt>Instagram</dt>
+            <dd>
+              <a href={datos.instagram.url} target="_blank" rel="noopener">
+                @{datos.instagram.usuario}
+              </a>
+            </dd>
+          </>
+        )
+      }
+      <dt>Ubicación</dt>
+      <dd>{datos.ubicacion}</dd>
+    </dl>
+  </section>
+</Base>

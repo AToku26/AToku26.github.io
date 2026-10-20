@@ -1,0 +1,31 @@
+---
+// Tarjeta de un proyecto en la página de inicio.
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { enlace, rutaVideo } from '../lib/utilidades';
+
+interface Props {
+  proyecto: CollectionEntry<'proyectos'>;
+  cargaInmediata?: boolean;
+}
+
+const { proyecto, cargaInmediata = false } = Astro.props;
+const { titulo, tipo, resumen, portada, vistaPrevia } = proyecto.data;
+const vista = rutaVideo(vistaPrevia, `src/content/proyectos/${proyecto.id}/index.md`);
+---
+
+<a class="proyecto" href={enlace(`proyectos/${proyecto.id}/`)}>
+  <div class="proyecto__medio">
+    <Image
+      src={portada}
+      alt=""
+      widths={[480, 800, 1100]}
+      sizes="(min-width: 760px) 55vw, 92vw"
+      loading={cargaInmediata ? 'eager' : 'lazy'}
+    />
+    {vista && <video data-vista={vista} muted loop playsinline preload="none" aria-hidden="true" />}
+  </div>
+  <h3 class="proyecto__titulo">{titulo}</h3>
+  <p class="proyecto__tipo">{tipo}</p>
+  <p class="proyecto__resumen">{resumen}</p>
+</a>
