@@ -1,0 +1,70 @@
+---
+// Plantilla de la página de cada serie de fotos. Se genera una página por cada carpeta
+// dentro de src/content/fotografia/.
+import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Galeria from '../../components/Galeria.astro';
+import { enlace, ordenar, contarFotos } from '../../lib/utilidades';
+
+export async function getStaticPaths() {
+  const series = ordenar(await getCollection('fotografia', ({ data }) => !data.borrador));
+  return series.map((serie) => ({
+    params: { id: serie.id },
+    props: { serie, otras: series.filter((s) => s.id !== serie.id) },
+  }));
+}
+
+const { serie, otras } = Astro.props;
+const { titulo, fotos, instagram } = serie.data;
+const { Content } = await render(serie);
+const tieneTexto = Boolean(serie.body?.trim());
+const imagenSocial = await getImage({ src: fotos[0], width: Math.min(1200, fotos[0].width), format: 'jpg' });
+---
+
+<Base titulo={titulo} descripcion={`${titulo}: serie fotográfica de André Tokumori.`} imagen={imagenSocial.src}>
+  <article class="envoltura">
+    <a class="volver" href={enlace('#fotografia')}>Volver a fotografía</a>
+
+    <header class="ficha__cabeza">
+      <h1>{titulo}</h1>
+      <p class="ficha__meta">
+        {contarFotos(fotos.length)}
+        {
+          instagram && (
+            <>
+              {', '}
+              <a href={instagram} target="_blank" rel="noopener">
+                ver en Instagram
+              </a>
+            </>
+          )
+        }
+      </p>
+      {
+        tieneTexto && (
+          <div class="prosa ficha__resumen">
+            <Content />
+          </div>
+        )
+      }
+    </header>
+
+    <Galeria fotos={fotos} titulo={titulo} />
+
+    {
+      otras.length > 0 && (
+        <nav class="paginacion paginacion--lista" aria-label="Otras series">
+          <span>Otras series</span>
+          <ul class="otras">
+            {otras.map((otra) => (
+              <li>
+                <a href={enlace(`fotografia/${otra.id}/`)}>{otra.data.titulo}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </article>
+</Base>

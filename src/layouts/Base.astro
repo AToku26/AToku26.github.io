@@ -1,0 +1,62 @@
+---
+// Estructura común de todas las páginas: <head>, cabecera, contenido y pie.
+import '../styles/global.css';
+import Encabezado from '../components/Encabezado.astro';
+import Pie from '../components/Pie.astro';
+import { enlace } from '../lib/utilidades';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  imagen?: string; // imagen para cuando se comparte el enlace (redes, WhatsApp)
+}
+
+const {
+  titulo,
+  descripcion = 'Portafolio de André Tokumori: video, motion graphics, fotografía y proyectos hechos a mano. Lima, Perú.',
+  imagen,
+} = Astro.props;
+
+const tituloCompleto = titulo ? `${titulo} · André Tokumori` : 'André Tokumori · Portafolio';
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const imagenSocial = imagen ? new URL(imagen, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href={canonica} />
+    <link rel="icon" type="image/png" href={enlace('favicon.png')} />
+    <link rel="apple-touch-icon" href={enlace('apple-touch-icon.png')} />
+    <link rel="preload" href={enlace('fonts/bodoni-moda-sc.woff')} as="font" type="font/woff" crossorigin />
+    <link rel="preload" href={enlace('fonts/bodoni-moda.woff')} as="font" type="font/woff" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    {imagenSocial && <meta property="og:image" content={imagenSocial} />}
+    <meta name="twitter:card" content={imagenSocial ? 'summary_large_image' : 'summary'} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <div class="envoltura">
+      <Encabezado />
+    </div>
+    <main id="contenido">
+      <slot />
+    </main>
+    <div class="envoltura">
+      <Pie />
+    </div>
+    <script>
+      import '../scripts/sitio.js';
+    </script>
+  </body>
+</html>

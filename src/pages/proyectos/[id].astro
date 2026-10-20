@@ -1,0 +1,98 @@
+---
+// Plantilla de la página de cada proyecto. Se genera una página por cada carpeta
+// dentro de src/content/proyectos/.
+import { getCollection, render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Galeria from '../../components/Galeria.astro';
+import { enlace, ordenar, rutaVideo, contarFotos } from '../../lib/utilidades';
+
+export async function getStaticPaths() {
+  const proyectos = ordenar(await getCollection('proyectos', ({ data }) => !data.borrador));
+  return proyectos.map((proyecto, i) => ({
+    params: { id: proyecto.id },
+    props: {
+      proyecto,
+      anterior: proyectos[(i - 1 + proyectos.length) % proyectos.length],
+      siguiente: proyectos[(i + 1) % proyectos.length],
+    },
+  }));
+}
+
+const { proyecto, anterior, siguiente } = Astro.props;
+const { titulo, tipo, resumen, portada, video, instagram, fotos } = proyecto.data;
+const { Content } = await render(proyecto);
+
+const urlVideo = rutaVideo(video, `src/content/proyectos/${proyecto.id}/index.md`);
+const poster = await getImage({ src: portada, width: Math.min(1280, portada.width), format: 'jpg' });
+---
+
+<Base titulo={titulo} descripcion={resumen} imagen={poster.src}>
+  <article class="envoltura">
+    <a class="volver" href={enlace('#proyectos')}>Volver a proyectos</a>
+
+    <header class="ficha__cabeza">
+      <h1>{titulo}</h1>
+      <p class="ficha__meta">{tipo}</p>
+      <p class="ficha__resumen">{resumen}</p>
+    </header>
+
+    {
+      urlVideo ? (
+        <video class="ficha__video" controls playsinline preload="metadata" poster={poster.src}>
+          <source src={urlVideo} type="video/mp4" />
+          Tu navegador no puede reproducir este video. <a href={urlVideo}>Descárgalo aquí</a>.
+        </video>
+      ) : (
+        <Image src={portada} alt="" widths={[800, 1280, 1800]} sizes="92vw" loading="eager" />
+      )
+    }
+
+    <div class="ficha__cuerpo">
+      <div class="prosa">
+        <Content />
+      </div>
+      <dl class="ficha-datos">
+        <dt>Tipo</dt>
+        <dd>{tipo}</dd>
+        {
+          fotos.length > 0 && (
+            <>
+              <dt>Galería</dt>
+              <dd>{contarFotos(fotos.length)}</dd>
+            </>
+          )
+        }
+        {
+          instagram && (
+            <>
+              <dt>Publicado en</dt>
+              <dd>
+                <a href={instagram} target="_blank" rel="noopener">
+                  Instagram
+                </a>
+              </dd>
+            </>
+          )
+        }
+      </dl>
+    </div>
+
+    {fotos.length > 0 && <Galeria fotos={fotos} titulo={titulo} />}
+
+    {
+      anterior.id !== proyecto.id && (
+        <nav class="paginacion" aria-label="Más proyectos">
+          <a href={enlace(`proyectos/${anterior.id}/`)}>
+            <span>Anterior</span>
+            <strong>{anterior.data.titulo}</strong>
+          </a>
+          <a href={enlace(`proyectos/${siguiente.id}/`)}>
+            <span>Siguiente</span>
+            <strong>{siguiente.data.titulo}</strong>
+          </a>
+        </nav>
+      )
+    }
+  </article>
+</Base>
